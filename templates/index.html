@@ -2,51 +2,74 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>GitOps CI/CD Dashboard</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
 
-    <script src="https://kit.fontawesome.com/6b0d4dfdb0.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-    <nav>
+<div class="background">
 
-        <div class="logo">
-            🚀 GitOps Dashboard
-        </div>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
 
-        <ul>
+</div>
 
-            <li>Home</li>
+<nav>
 
-            <li>Pipeline</li>
+    <div class="logo">
 
-            <li>Architecture</li>
+        GitOps Dashboard
 
-            <li>Tech Stack</li>
+    </div>
 
-            <li>About</li>
+    <ul>
 
-        </ul>
+        <li>Home</li>
 
-        <button id="demo-btn">
-            Trigger Demo
-        </button>
+        <li>Pipeline</li>
 
-    </nav>
+        <li>Architecture</li>
 
-    <section class="hero">
+        <li>Tech Stack</li>
+
+        <li>About</li>
+
+    </ul>
+
+    <button class="demo-btn">
+
+        Trigger Demo
+
+    </button>
+
+</nav>
+
+<section class="hero">
+
+    <div class="hero-content">
 
         <h1>
 
@@ -56,20 +79,124 @@
 
         <p>
 
-            Automated Continuous Integration and Continuous Deployment
-            using GitHub, Jenkins, Docker, Kubernetes and ArgoCD.
+            End-to-End Continuous Integration &
+            Continuous Deployment using GitHub,
+            Jenkins, Docker, Kubernetes and ArgoCD.
 
         </p>
 
-        <button class="primary-btn">
+        <div class="hero-buttons">
 
-            Explore Dashboard
+            <button class="primary">
 
-        </button>
+                Explore Dashboard
 
-    </section>
+            </button>
 
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+            <button class="secondary">
+
+                Learn More
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================= Deployment Status ================= -->
+
+<section class="status-section">
+
+    <h2>Live Deployment Status</h2>
+
+    <p class="section-subtitle">
+        Current deployment information of the GitOps pipeline.
+    </p>
+
+    <div class="status-container">
+
+        <div class="status-card">
+
+            <div class="status-icon success-dot"></div>
+
+            <h3>Pipeline Status</h3>
+
+            <h1>Healthy</h1>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <small>100% Operational</small>
+
+        </div>
+
+        <div class="status-card">
+
+            <div class="emoji">🚀</div>
+
+            <h3>Current Build</h3>
+
+            <h1>#71</h1>
+
+            <small>Latest Jenkins Build</small>
+
+        </div>
+
+        <div class="status-card">
+
+            <div class="emoji">🐳</div>
+
+            <h3>Docker Image</h3>
+
+            <h1>v71</h1>
+
+            <small>adityakhiroji/gitops-demo</small>
+
+        </div>
+
+        <div class="status-card">
+
+            <div class="emoji">☸️</div>
+
+            <h3>Kubernetes</h3>
+
+            <h1>3 / 3</h1>
+
+            <small>Running Pods</small>
+
+        </div>
+
+        <div class="status-card">
+
+            <div class="emoji">🚀</div>
+
+            <h3>ArgoCD Sync</h3>
+
+            <h1>Synced</h1>
+
+            <small>Auto Sync Enabled</small>
+
+        </div>
+
+        <div class="status-card">
+
+            <div class="emoji">📦</div>
+
+            <h3>Namespace</h3>
+
+            <h1>gitops-demo</h1>
+
+            <small>Production Namespace</small>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
 
