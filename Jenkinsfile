@@ -65,6 +65,9 @@ pipeline {
             steps {
                 sh """
                     sed -i 's|image: .*|image: ${IMAGE_NAME}:${IMAGE_TAG}|' k8s/deployment.yaml
+
+                    echo "Updated deployment.yaml"
+
                     cat k8s/deployment.yaml
                 """
             }
@@ -90,6 +93,7 @@ pipeline {
                     usernameVariable: 'GIT_USER',
                     passwordVariable: 'GIT_TOKEN'
                 )]) {
+
                     sh '''
                         git push https://${GIT_USER}:${GIT_TOKEN}@github.com/adityamk123/gitops-demo.git HEAD:main
                     '''
@@ -97,10 +101,55 @@ pipeline {
             }
         }
 
+        stage('Cleanup Old Images') {
+            steps {
+                sh '''
+                    echo "Cleaning old Docker images..."
+
+                    docker images adityakhiroji/gitops-demo --format "{{.Repository}}:{{.Tag}}" \
+                    | grep -E '^[^:]+:[0-9]+$' \
+                    | sort -t: -k2 -nr \
+                    | tail -n +3 \
+                    | xargs -r docker rmi
+
+                    docker image prune -f
+
+                    echo ""
+                    echo "Remaining Images:"
+                    docker images adityakhiroji/gitops-demo
+                '''
+            }
+        }
+
         stage('Verify Images') {
             steps {
-                sh 'docker images'
+                sh '''
+                    echo ""
+                    echo "Docker Images:"
+                    docker images
+
+                    echo ""
+                    echo "Disk Usage:"
+                    docker system df
+                '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo "=========================================="
+            echo "CI/CD Pipeline Completed Successfully"
+            echo "Image : ${IMAGE_NAME}:${IMAGE_TAG}"
+            echo "ArgoCD will automatically sync the changes."
+            echo "=========================================="
+        }
+
+        failure {
+            echo "=========================================="
+            echo "Pipeline Failed!"
+            echo "Please check the failed stage."
+            echo "=========================================="
         }
     }
 }
