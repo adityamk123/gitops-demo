@@ -21,7 +21,7 @@ spec:
       containers:
       - name: gitops-demo
 
-        image: adityakhiroji/gitops-demo:13
+        image: adityakhiroji/gitops-demo:14
 
         imagePullPolicy: Always
 
