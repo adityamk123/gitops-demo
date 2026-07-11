@@ -14,6 +14,23 @@ pipeline {
             }
         }
 
+        stage('Skip Jenkins Commit') {
+            steps {
+                script {
+                    def commitMessage = sh(
+                        script: "git log -1 --pretty=%B",
+                        returnStdout: true
+                    ).trim()
+
+                    echo "Latest Commit Message: ${commitMessage}"
+
+                    if (commitMessage.startsWith("Updated image")) {
+                        error("Build triggered by Jenkins manifest update. Stopping to avoid infinite loop.")
+                    }
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh """
@@ -30,7 +47,7 @@ pipeline {
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
-                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                     '''
                 }
             }
@@ -83,18 +100,6 @@ pipeline {
         stage('Verify Images') {
             steps {
                 sh 'docker images'
-            }
-        }
-
-        stage('Cleanup Old Images') {
-            steps {
-                sh '''
-                    echo "Cleaning old Docker images..."
-
-                    docker image prune -f
-
-                    docker images
-               '''
             }
         }
     }
