@@ -95,7 +95,7 @@ pipeline {
                 )]) {
 
                     sh '''
-                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/adityamk123/gitops-demo.git HEAD:main
+                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/adityamk123/KubeFusion-Cloud-Native-GitOps-CI-CD-Deployment-Platform.git HEAD:main
                     '''
                 }
             }
